@@ -12,7 +12,7 @@
 #define LINELEN 80
 #define MAXSTRING 10000
 
-void encrypt(char plainTxt[], int kmat[][MATSIZE], int n);
+void encrypt(char plainTxt[], int kmat[][], int n);
 void pad(char text[], int n);
 
 int main(int argc, char *argv[] )
@@ -61,7 +61,7 @@ int main(int argc, char *argv[] )
 	return 0;
 }
 
-void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
+void encrypt(char plainTxt[], int kmat[][], int n)
 {
 // Pad if necessary
 	pad(plainTxt, n);
@@ -71,7 +71,7 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 	while (i < strlen(plainTxt))
 	{
 		int j, k;
-		char cipherTxt[MATSIZE+1];
+		char cipherTxt[n+1];
 		
 		for(j =0;j<n;j++)
 		{
@@ -84,7 +84,7 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 		}
 		cipherTxt[n] = '\0';
 		i +=n;
-		
+// Cipher console print here --		
 		printf("%s", cipherTxt);
 	}
 	printf("\n");
