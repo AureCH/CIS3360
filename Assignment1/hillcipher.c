@@ -4,6 +4,7 @@
 //	6/15/2017
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -18,8 +19,13 @@ int main(int argc, char *argv[] )
 {
 	char keyfile[MAXSTRING], inputfile[MAXSTRING], outputfile[MAXSTRING];
 	
-	FILE* ifp = fopen(argv[1], "r");
-	int i, j, n;
+	FILE* ifp = fopen(argv[0], "r");
+		if( ifp == NULL)
+		{
+			printf("bad file address");
+			return 0;
+		}
+	int i, j, n, flen;
 	
 	fscanf(ifp, "%d", &n);
 	int kmat[n][n];
@@ -30,11 +36,23 @@ int main(int argc, char *argv[] )
 			fscanf(ifp, "%d", &kmat[i][j]);
 		}
 	}
-	char plainTxt[MAXSTRING];
-	fscanf(ifp, "%s", plainTxt);
 	fclose(ifp);
+	free(ifp);
+	ifp = fopen(argv[1],"r");
 	
-	encrypt(plainTxt, kmat, n);
+	fscanf(ifp, "%s", inputfile);
+	fclose(ifp);
+	flen = strlen(inputfile);
+	j=0;
+	while (j<flen)	
+	{
+		for(i=0; i<LINELEN;i++)
+		{
+		printf("%c", inputfile[i]);
+		}
+		j++;
+	}
+	encrypt(inputfile, kmat, n);
 	return 0;
 }
 
@@ -55,7 +73,7 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 			{
 				val = (val+ kmat[j][k]*(plainTxt[i+k] - 'a'))%26;
 			}
-			cipherTxt[j]= (char) ('a'+ value);
+			cipherTxt[j]= (char) ('a'+ val);
 		}
 		cipherTxt[n] = '\0';
 		i +=n;
