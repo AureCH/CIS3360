@@ -17,6 +17,7 @@ void pad(char text[], int n);
 
 int main(int argc, char *argv[] )
 {
+
 	char keyfile[MAXSTRING], inputfile[MAXSTRING], outputfile[MAXSTRING];
 	
 	FILE* ifp = fopen(argv[0], "r");
@@ -26,7 +27,7 @@ int main(int argc, char *argv[] )
 			return 0;
 		}
 	int i, j, n, flen;
-	
+// Read in matrix size, then matrix	
 	fscanf(ifp, "%d", &n);
 	int kmat[n][n];
 	for (i=0;i<n;i++)
@@ -38,10 +39,12 @@ int main(int argc, char *argv[] )
 	}
 	fclose(ifp);
 	free(ifp);
+// open input file, dump into large array
 	ifp = fopen(argv[1],"r");
 	
 	fscanf(ifp, "%s", inputfile);
 	fclose(ifp);
+//Print input file to console, at maximum width 80, newline break
 	flen = strlen(inputfile);
 	j=0;
 	while (j<flen)	
@@ -50,17 +53,21 @@ int main(int argc, char *argv[] )
 		{
 		printf("%c", inputfile[i]);
 		}
+		printf("\n");
 		j++;
 	}
+// start encryption
 	encrypt(inputfile, kmat, n);
 	return 0;
 }
 
 void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 {
+// Pad if necessary
 	pad(plainTxt, n);
 	
 	int i =0;
+//	iterate through entire file length, doing looped matrix multiplication
 	while (i < strlen(plainTxt))
 	{
 		int j, k;
