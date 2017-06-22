@@ -15,10 +15,13 @@
 void encrypt(char plainTxt[], int kmat[][MATSIZE], int n);
 void pad(char text[], int n);
 
+
 int main(int argc, char *argv[] )
 {
 
 	char keyfile[MAXSTRING], inputfile[MAXSTRING], outputfile[MAXSTRING];
+//		printf("%d" "\n", __LINE__);
+//		fflush(stdout);
 	
 	FILE* ifp = fopen(argv[0], "r");
 		if( ifp == NULL)
@@ -26,24 +29,32 @@ int main(int argc, char *argv[] )
 			printf("bad file address");
 			return 0;
 		}
+
+		printf("%d" "\n", __LINE__);
+		fflush(stdout);
 	int i, j, n, flen;
 // Read in matrix size, then matrix	
 	fscanf(ifp, "%d", &n);
+
 	int kmat[n][n];
 	for (i=0;i<n;i++)
 	{
 		for(j=0;j<n;j++)
 		{
+
 			fscanf(ifp, "%d", &kmat[i][j]);
 		}
 	}
 	fclose(ifp);
-	free(ifp);
 // open input file, dump into large array
 	ifp = fopen(argv[1],"r");
-	
+		printf("%d" "\n", __LINE__);
+		fflush(stdout);
+// Segfaulting here 
 	fscanf(ifp, "%s", inputfile);
 	fclose(ifp);
+		printf("%d" "\n", __LINE__);
+		fflush(stdout);
 //Print input file to console, at maximum width 80, newline break
 	flen = strlen(inputfile);
 	j=0;
@@ -63,6 +74,8 @@ int main(int argc, char *argv[] )
 
 void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 {
+		printf("%d" "\n", __LINE__);
+		fflush(stdout);
 // Pad if necessary
 	pad(plainTxt, n);
 	
@@ -78,7 +91,7 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 			int val =0;
 			for(k=0;k<n;k++)
 			{
-//
+// add check for commas/convert to lower here
 				val = (val+ kmat[j][k]*(plainTxt[i+k] - 'a'))%26;
 			}
 			cipherTxt[j]= (char) ('a'+ val);
@@ -92,6 +105,8 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 }
 
 void pad(char text[], int n) {
+		printf("%d" "\n", __LINE__);
+		fflush(stdout);
 
     // Calculate number of padding chars.
     int oldlen = strlen(text);
@@ -104,3 +119,5 @@ void pad(char text[], int n) {
         text[i] = 'x';
     text[newlen] = '\0';
 }
+
+
