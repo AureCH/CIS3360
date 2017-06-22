@@ -8,11 +8,11 @@
 #include <string.h>
 #include <ctype.h>
 
-#define MATSIZE 10
+#define MATSIZE 9
 #define LINELEN 80
 #define MAXSTRING 10000
 
-void encrypt(char plainTxt[], int kmat[][], int n);
+void encrypt(char plainTxt[], int kmat[][MATSIZE], int n);
 void pad(char text[], int n);
 
 int main(int argc, char *argv[] )
@@ -61,7 +61,7 @@ int main(int argc, char *argv[] )
 	return 0;
 }
 
-void encrypt(char plainTxt[], int kmat[][], int n)
+void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 {
 // Pad if necessary
 	pad(plainTxt, n);
@@ -78,6 +78,7 @@ void encrypt(char plainTxt[], int kmat[][], int n)
 			int val =0;
 			for(k=0;k<n;k++)
 			{
+//
 				val = (val+ kmat[j][k]*(plainTxt[i+k] - 'a'))%26;
 			}
 			cipherTxt[j]= (char) ('a'+ val);
