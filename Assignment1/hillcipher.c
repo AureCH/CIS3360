@@ -23,10 +23,10 @@ int main(int argc, char *argv[] )
 	char keyfile[MAXSTRING], inputfile[MAXSTRING], outputfile[MAXSTRING];
 //		printf("%d" "\n", __LINE__);
 //		fflush(stdout);
-	printf("Argv0 %s \n", argv[0]);
-	printf("Argv1 %s \n", argv[1]);
-	printf("Argv2 %s \n", argv[2]);
-	fflush(stdout);
+//	printf("Argv0 %s \n", argv[0]);
+//	printf("Argv1 %s \n", argv[1]);
+//	printf("Argv2 %s \n", argv[2]);
+//	fflush(stdout);
 	FILE* ifp = fopen(argv[1], "r");
 		if( ifp == NULL)
 		{
@@ -34,13 +34,13 @@ int main(int argc, char *argv[] )
 			return 0;
 		}
 
-		printf("%d" "\n", __LINE__);
-		fflush(stdout);
+//		printf("%d" "\n", __LINE__);
+//		fflush(stdout);
 	int i, j, n, flen;
 // Read in matrix size, then matrix	
 	fscanf(ifp, "%d", &n);
 
-	printf("Key Matrix:\n \n");
+	printf("\nKey Matrix:\n \n");
 	int kmat[n][n];
 	for (i=0;i<n;i++)
 	{
@@ -121,12 +121,13 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 	int ccount;
 	char buff[LINELEN];
 	int flen =0;
+	char bf;
 	flen = strlen(plainTxt);
-	
+	char cText[flen];
 	print(plainTxt);
-	printf("CipherText:\n\n");
+	printf("\nCipherText:\n\n");
 	char cipherTxt[n+1];
-	int i =0;
+	int i =0, z=0;
 //	iterate through entire file length, doing looped matrix multiplication
 	while (i < strlen(plainTxt))
 	{
@@ -141,20 +142,33 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 
 				val = (val+ kmat[j][k]*(plainTxt[i+k] - 'a'))%26;
 			}
+			cText[z++] = (char) ('a' + val);
 			cipherTxt[j]= (char) ('a'+ val);
+
 		}
 		cipherTxt[n] = '\0';
 		i +=n;
-// Cipher console print here --		
+
+// Cipher console print here --
+	
 	printf("%s", cipherTxt);
+	if (z%80== 0)
+		printf("\n");
+	//z=+n;
+	//printf("\n\n %d\n\n", z);
+	//if(z ==80)
+	//	printf("\n%d\n", z);	
+
 	}
-	printf("\n\n");
+	printf("\n");
+
+//	printf("%s", cText);
 	int linecount, charCount;
 	i =0;
 //	printf("\n%d\n", i);
 	int lines = strlen(cipherTxt)/LINELEN;
 /*
-	while(cipherTxt[i] != cipherTxt[strlen(cipherTxt)])
+	while(c != cipherTxt[strlen(cipherTxt)])
 	{
 	for(linecount =0; linecount < lines-10; linecount++)
 		{
@@ -170,7 +184,8 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 	printf("\n");
 
 	printf("\n");
-
+//	print(plainTxt);
+	
 
 }
 
@@ -194,7 +209,7 @@ void print(char plainTxt[])
 {
 	char buffer[80];
 	int linecount, charCount,i =0;
-	printf("\nPlainText:\n\n");
+	printf("\n\nPlaintext:\n\n");
 	int lines;
 	lines = strlen(plainTxt)/LINELEN;
 //	printf("%d %d\n", lines-10, __LINE__);
@@ -205,7 +220,12 @@ void print(char plainTxt[])
 	for(linecount =0; linecount < lines-10; linecount++)
 		{
 		for(charCount =0; charCount < LINELEN; charCount++)
-			{	
+			{
+				if(plainTxt[i] == '\0')
+				{
+					printf("\n");
+					break;	
+				}
 			printf("%c", plainTxt[i++]);
 			}
 		if(charCount == 80)
@@ -214,13 +234,6 @@ void print(char plainTxt[])
 		}
 	//printf("%d", i);
 	}	
-
-
-
-
-
-
-
 
 
 }
