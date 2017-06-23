@@ -22,8 +22,11 @@ int main(int argc, char *argv[] )
 	char keyfile[MAXSTRING], inputfile[MAXSTRING], outputfile[MAXSTRING];
 //		printf("%d" "\n", __LINE__);
 //		fflush(stdout);
-	
-	FILE* ifp = fopen(argv[0], "r");
+	printf("Argv0 %s \n", argv[0]);
+	printf("Argv1 %s \n", argv[1]);
+	printf("Argv2 %s \n", argv[2]);
+	fflush(stdout);
+	FILE* ifp = fopen(argv[1], "r");
 		if( ifp == NULL)
 		{
 			printf("bad file address");
@@ -47,7 +50,7 @@ int main(int argc, char *argv[] )
 	}
 	fclose(ifp);
 // open input file, dump into large array
-	ifp = fopen(argv[1],"r");
+	ifp = fopen(argv[2],"r");
 		printf("%d" "\n", __LINE__);
 		fflush(stdout);
 // Segfaulting here 
