@@ -13,6 +13,7 @@
 #define MAXSTRING 10000
 
 void encrypt(char plainTxt[], int kmat[][MATSIZE], int n);
+//void encrypt(char plainTxt[], int **kmat, int n);
 char *pad(char text[], int n);
 void print(char plainTxt[]);
 
@@ -21,12 +22,6 @@ int main(int argc, char *argv[] )
 {
 
 	char keyfile[MAXSTRING], inputfile[MAXSTRING], outputfile[MAXSTRING];
-//		printf("%d" "\n", __LINE__);
-//		fflush(stdout);
-//	printf("Argv0 %s \n", argv[0]);
-//	printf("Argv1 %s \n", argv[1]);
-//	printf("Argv2 %s \n", argv[2]);
-//	fflush(stdout);
 	FILE* ifp = fopen(argv[1], "r");
 		if( ifp == NULL)
 		{
@@ -34,8 +29,6 @@ int main(int argc, char *argv[] )
 			return 0;
 		}
 
-//		printf("%d" "\n", __LINE__);
-//		fflush(stdout);
 	int i, j, n, flen;
 // Read in matrix size, then matrix	
 	fscanf(ifp, "%d", &n);
@@ -48,15 +41,16 @@ int main(int argc, char *argv[] )
 		{
 
 			fscanf(ifp, "%d", &kmat[i][j]);
-			printf("%d ", kmat[i][j]);
+			printf("%d", kmat[i][j]);
+//prevent extra spaces in matrix that cause diff issues	
+			if(j!=n-1)
+				printf(" ");
 		}
 		printf("\n");
 	}
 	fclose(ifp);
 // open input file, dump into large array
 	ifp = fopen(argv[2],"r");
-//		printf("%d" "\n", __LINE__);
-//		fflush(stdout);
 	int iChar;
 	i=0;
 // Convert & Strip rather than dump into large array.
@@ -66,48 +60,11 @@ int main(int argc, char *argv[] )
 			inputfile[i++] = tolower(iChar);
 	}
 	inputfile[i] = '\0';
-//	fscanf(ifp, "%s", inputfile);
 	fclose(ifp);
-//		printf("%d" "\n", __LINE__);
-//		fflush(stdout);
-//	printf("Strlen of Input file: %d \n", strlen(inputfile));
-//	printf("Array size of input file: %d \n", sizeof(inputfile));
 
-// This is causing seg fault... not entirely sure why.
-//Print input file to console, at maximum width 80, newline break
-/*flen = strlen(inputfile)-1;
-	j=0;
-	int ccount=0;
-	while (j<flen)	
-	{
-		for(i=0; i<LINELEN;i++)
-		{
-		printf("%c", inputfile[ccount]);
-		ccount++;
-		}
-		printf("\n");
-		j++;
-	}
-*/
-//	printf("%s\n", inputfile);
 // start encryption
 	encrypt(inputfile, kmat, n);
 
-//	flen = strlen(inputfile);
-//	j=0;
-//	int ccount =0;
-//	printf("%d \n", flen);
-/*	while(j=flen)
-	{
-		for(i=0; i<LINELEN;i++)
-		{
-			//printf("%c", inputfile[ccount]);
-			ccount++;
-		}
-		printf("\n");
-		j++;
-	}
-*/
 	return 0;
 }
 
@@ -121,7 +78,7 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 	int ccount;
 	char buff[LINELEN];
 	int flen =0;
-	char bf;
+	
 	flen = strlen(plainTxt);
 	char cText[flen];
 	print(plainTxt);
@@ -154,44 +111,11 @@ void encrypt(char plainTxt[], int kmat[][MATSIZE], int n)
 	printf("%s", cipherTxt);
 	if (z%80== 0)
 		printf("\n");
-	//z=+n;
-	//printf("\n\n %d\n\n", z);
-	//if(z ==80)
-	//	printf("\n%d\n", z);	
-
 	}
-	printf("\n");
-
-//	printf("%s", cText);
-	int linecount, charCount;
-	i =0;
-//	printf("\n%d\n", i);
-	int lines = strlen(cipherTxt)/LINELEN;
-/*
-	while(c != cipherTxt[strlen(cipherTxt)])
-	{
-	for(linecount =0; linecount < lines-10; linecount++)
-		{
-		for(charCount =0; charCount < LINELEN; charCount++)
-			{	
-			printf("%c", cipherTxt[i++]);
-			}
-		if(charCount == 80)
-			printf("\n");
-		}
-	}
-*/
-	printf("\n");
-
-	printf("\n");
-//	print(plainTxt);
-	
-
+	printf("\n");	
 }
 
 char *pad(char text[], int n) {
-//		printf("%d" "\n", __LINE__);
-//		fflush(stdout);
 
     // Calculate number of padding chars.
     int oldlen = strlen(text);
@@ -205,6 +129,7 @@ char *pad(char text[], int n) {
     text[newlen] = '\0';
 	return text;
 }
+
 void print(char plainTxt[])
 {
 	char buffer[80];
@@ -212,8 +137,6 @@ void print(char plainTxt[])
 	printf("\n\nPlaintext:\n\n");
 	int lines;
 	lines = strlen(plainTxt)/LINELEN;
-//	printf("%d %d\n", lines-10, __LINE__);
-//	printf("%d\n", lines);
 
 	while(plainTxt[i] != '\0')
 	{
@@ -230,10 +153,6 @@ void print(char plainTxt[])
 			}
 		if(charCount == 80)
 			printf("\n");
-//	printf("\n");
 		}
-	//printf("%d", i);
 	}	
-
-
 }
