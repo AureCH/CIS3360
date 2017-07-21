@@ -19,12 +19,10 @@ int main(int argc, char *argv[])
 //	char input[64][8];
 	char itest;
 	char input[512] = { [0 ... 511] = '.'};
-	char crcmath[8][64] = {
-		printf("%s", CRCpolynomial);
-		fflush(stdout);
+//	char crcmath[8][64] = {
 	crclength = strlen(CRCpolynomial);
 	int *crcpoly[crclength];
-	printf("\n%d\n", crclength);
+//	printf("\n%d\n", crclength);
 
 
 	FILE* ifp = fopen(argv[2], "r");
@@ -39,16 +37,8 @@ int main(int argc, char *argv[])
 		fscanf(ifp, "%c", &input[i]);
 		if(input[i] == '\n')
 			input[i] = '.';
-//			printf("no bueno spaces");	
-/*		fscanf(ifp, "%c", &itest);
-		if(itest == "\n")
-		
-		else
-		{
-		input[i] = itest;
-		}
-		*/
-	if(i%64 == 0)
+
+	if(i%64 == 0 && i !=0)
 	{
 	printf("\n");
 	printf("%c", input[i]);	
@@ -58,4 +48,17 @@ int main(int argc, char *argv[])
 	}
 	printf("\n");
 	fclose(ifp);
+	
+	if(strcmp(argv[1], "c") == 0)
+	{
+		//printf("\n c\n");
+	}
+	else if(strcmp(argv[1], "v") == 0)
+	{
+		//printf("\n v \n");
+	}
+	else
+	printf("\n Invalid second parameter, enter c or v\n");
+
+
 }
