@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 //	char input[64][8];
 	char itest;
 	char input[512] = { [0 ... 511] = '.'};
+	char crcmath[8][64] = {
 		printf("%s", CRCpolynomial);
 		fflush(stdout);
 	crclength = strlen(CRCpolynomial);
@@ -35,7 +36,10 @@ int main(int argc, char *argv[])
 
 	for(i=0; i<512; i++)
 	{
-		fscanf(ifp, "%c", &input[i]);	
+		fscanf(ifp, "%c", &input[i]);
+		if(input[i] == '\n')
+			input[i] = '.';
+//			printf("no bueno spaces");	
 /*		fscanf(ifp, "%c", &itest);
 		if(itest == "\n")
 		
@@ -44,40 +48,14 @@ int main(int argc, char *argv[])
 		input[i] = itest;
 		}
 		*/
-	}
-
-/*	while((c= fgetc(ifp)) != EOF)
+	if(i%64 == 0)
 	{
-		for(j=0; j<8;j++)
-		{
-			for(i=0; i<64; i++)
-			{
-				if (c == "\n")
-					break;
-				else
-					input[i][j] = c;
-			}
-		}
+	printf("\n");
+	printf("%c", input[i]);	
 	}
-*/
-/*	for(i=0; i< crclength; i++)
-		{
-			if(i == 0)
-				printf("\n%d\n", __LINE__);
-			crcpoly = atoi(CRCpolynomial);
-//			crcpoly[crclength-i-1] = 1;//CRCpolynomial[i];
-		} 
-*/
-	printf("\nhere %d\n", __LINE__);
-	fflush(stdout);
-//	printf("\n%d\n", *crcpoly);
-
-/*
-	printf("hi\n");
-	fflush(stdout);
-	strcpy(crcpoly, CRCpolynomial);
-	printf("%s", crcpoly);
-	fflush(stdout);
-*/	
-//	FILE* ifp = fopen()
+	else
+		printf("%c", input[i]);
+	}
+	printf("\n");
+	fclose(ifp);
 }
